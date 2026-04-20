@@ -11,6 +11,7 @@ export const titleStyle = {
   fontSize: "36px",
   fontWeight: "700",
   marginBottom: "20px",
+  marginLeft: "24px"
 };
 
 export const labelInputRow = {
@@ -19,7 +20,7 @@ export const labelInputRow = {
   justifyContent: "space-between",
   alignItems: "center",
   marginBottom: "5px",
-  color: "var(#00F, #00F)",
+  color: "#00F", 
 };
 
 export const labelStyle = {
@@ -40,15 +41,14 @@ export const inputStyle = {
   background: "#FFF",
   marginBottom: "30px",
   marginLeft: "10px",
-  boxshadow: "4px 4px 0 0 var(#000, #000)"
+  boxShadow: "4px 4px 0 0 #000", 
 };
 
 export const forgotStyle = { 
   fontSize: "12px", 
-  color: "#00F", 
+  color: "#2323AF", 
   textDecoration: "none", 
   marginLeft: "10px", 
-  textalign: "center",
-  fontSize: "12px",
+  textAlign: "center",
   fontWeight: "500",
 };
