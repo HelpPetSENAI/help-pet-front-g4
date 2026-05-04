@@ -1,5 +1,7 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import ComingSoonPage from './pages/CommingSoonPage.jsx'
+import RegisterPetPage from './pages/g2-pages/RegisterPetPage.jsx'
+import ShowPetsPage from './pages/g2-pages/ShowPetsPage.jsx'
 import NotFoundPage from './pages/NotFoundPage.jsx'
 import GlobalStyle from './styles/GlobalStyle.js'
 import ExamplePage from './pages/ExamplePage.jsx'
@@ -16,6 +18,14 @@ const router = createBrowserRouter([
   {
     path: '/example',
     element: <ExamplePage />
+  },
+  {
+    path: '/register-pet',
+    element: <RegisterPetPage />
+  },
+  {
+    path: '/show-pets',
+    element: <ShowPetsPage />
   }
 ])
 
