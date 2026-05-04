@@ -1,16 +1,17 @@
 import Header from "./components/pet-header/Header.jsx";
-import {Container, MainContent} from "./style.js";
+import * as S from "./style.js";
+import DonationCard from "./components/DonationCard/DonationCard.jsx";
 
 function RegisterPetPage() {
 
     return (
-        <Container>
+        <S.Container>
             <Header/>
 
-            <MainContent>
-
-            </MainContent>
-        </Container>
+            <S.MainContent>
+                <DonationCard />
+            </S.MainContent>
+        </S.Container>
     );
 }
 
