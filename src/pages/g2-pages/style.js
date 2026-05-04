@@ -59,6 +59,23 @@ export const TextInput = styled.input.attrs( {placeholder: 'Digite Aqui'} )`
     }
 `;
 
+export const TextAreaInput = styled.textarea`
+    padding: 12px;
+    font-size: 18px;
+    width: 100%;
+    height: 120px;
+    border: 2px solid var(--crl-neutral-1000, #000);
+    background: var(--crl-neutral-100, #FFF);
+    box-shadow: 2px 2px 0 0 var(--crl-neutral-1000, #000);
+    transition: all 0.2s;
+
+    &:focus {
+        outline: none;
+        box-shadow: 4px 4px 0 0 var(--crl-neutral-1000, #000);
+        transform: translate(-2px, -2px);
+    }
+`;
+
 export const NumberInput = styled.input.attrs({
     type: 'number',
     min: 0,
@@ -112,6 +129,12 @@ export const AgeWrapper = styled.div`
     
     p {
         font-size: 16px;
+    }
+`;
+
+export const WeightContent = styled.div`
+    p {
+        padding-top: 4px;
     }
 `;
 

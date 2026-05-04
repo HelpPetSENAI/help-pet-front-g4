@@ -325,7 +325,7 @@ function RegisterPetPage() {
                         </S.ButtonWrapper>
                     </div>
 
-                    <div>
+                    <S.WeightContent>
                         <S.TitleH2>Qual o peso?</S.TitleH2>
                         <S.NumberInput
                             type="number"
@@ -335,7 +335,7 @@ function RegisterPetPage() {
                             onChange={(e) => handleInputChange('weight', e.target.value)}
                         />
                         <p>(em kg)</p>
-                    </div>
+                    </S.WeightContent>
 
                     <div>
                         <S.TitleH2>Qual o sexo?</S.TitleH2>
@@ -364,8 +364,10 @@ function RegisterPetPage() {
 
                     <div>
                         <S.TitleH2>Descrição do Pet:</S.TitleH2>
-                        <S.TextInput
+                        <S.TextAreaInput
                             value={formData.description}
+                            maxLength="230"
+                            placeholder="Digite Aqui"
                             onChange={(e) => handleInputChange('description', e.target.value)}
                         />
                     </div>
