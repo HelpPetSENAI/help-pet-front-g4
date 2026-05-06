@@ -1,33 +1,45 @@
 import { useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
 
-// 1. The Labels (Replaced Utils.months with standard array)
-const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'];
+const todaysDate = new Date()
+
+const dayOfTheWeek = todaysDate.toLocaleString('pt-br', {weekday: 'short' })
+
+const tomorrowDate1 = new Date(todaysDate);
+tomorrowDate1.setDate(todaysDate.getDate() + 1);
+
+const tomorrowDate2 = new Date(todaysDate);
+tomorrowDate2.setDate(todaysDate.getDate() + 2);
+
+const tomorrowDate3 = new Date(todaysDate);
+tomorrowDate3.setDate(todaysDate.getDate() + 3);
+
+const tomorrowDate4 = new Date(todaysDate);
+tomorrowDate4.setDate(todaysDate.getDate() + 4);
+
+const tomorrowDate5 = new Date(todaysDate);
+tomorrowDate5.setDate(todaysDate.getDate() + 5);
+
+const tomorrowDate6 = new Date(todaysDate);
+tomorrowDate6.setDate(todaysDate.getDate() + 6);
+
+
+const labels = [dayOfTheWeek, 
+  tomorrowDate1.toLocaleDateString('pt-br', {weekday: 'short' }), 
+  tomorrowDate2.toLocaleDateString('pt-br', {weekday: 'short' }),
+  tomorrowDate3.toLocaleDateString('pt-br', {weekday: 'short' }),
+  tomorrowDate4.toLocaleDateString('pt-br', {weekday: 'short' }),
+  tomorrowDate5.toLocaleDateString('pt-br', {weekday: 'short' }),
+  tomorrowDate6.toLocaleDateString('pt-br', {weekday: 'short' })];
 // 2. The Data Object
 const data = {
   labels: labels,
   datasets: [{
-    label: 'My First Dataset',
+    label: 'Quantidade de Requests',
     data: [65, 59, 80, 81, 56, 55, 40],
     backgroundColor: [
-      'rgba(255, 99, 132, 0.2)',
-      'rgba(255, 159, 64, 0.2)',
-      'rgba(255, 205, 86, 0.2)',
-      'rgba(75, 192, 192, 0.2)',
-      'rgba(54, 162, 235, 0.2)',
-      'rgba(153, 102, 255, 0.2)',
-      'rgba(201, 203, 207, 0.2)'
-    ],
-    borderColor: [
-      'rgb(255, 99, 132)',
-      'rgb(255, 159, 64)',
-      'rgb(255, 205, 86)',
-      'rgb(75, 192, 192)',
-      'rgb(54, 162, 235)',
-      'rgb(153, 102, 255)',
-      'rgb(201, 203, 207)'
-    ],
-    borderWidth: 1
+      '#81DA87'
+    ]
   }]
 };
 
@@ -71,7 +83,7 @@ export default function BarChart() {
 
   return (
     // Set explicit height/width constraints so it doesn't break your grid layout
-    <div style={{ position: 'relative', width: '100%', height: '300px' }}>
+    <div style={{ position: 'relative', width: '100%', height: '500px' }}>
       <canvas ref={canvasRef}></canvas>
     </div>
   );
