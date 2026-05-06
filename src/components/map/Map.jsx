@@ -217,7 +217,6 @@ export default function MapComponent({ setMap, searchLocation, filters }) {
                         borderTopLeftRadius: "20px",
                         borderTopRightRadius: "20px",
                         boxShadow: "0 -4px 20px rgba(0,0,0,0.2)",
-                        zIndex: 9999,
                         overflow: "hidden",
                         display: "flex",
                         flexDirection: "column",
