@@ -9,10 +9,6 @@ export default function Dashboard(){
             <DashBoardCard colSpan={3} rowSpan={4} title={'Esse é um título'} description={'Essa é a descrição'} content={<BarChart />}/>
             <DashBoardCard colSpan={1} rowSpan={2} title={'Esse é um título'} description={'Essa é a descrição'}/>
             <DashBoardCard colSpan={1} rowSpan={2} title={'Esse é um título'} description={'Essa é a descrição'}/>
-            <DashBoardCard colSpan={1} rowSpan={1} title={'Esse é um título'} description={'Essa é a descrição'}/>
-            <DashBoardCard colSpan={1} rowSpan={1} title={'Esse é um título'} description={'Essa é a descrição'}/>
-            <DashBoardCard colSpan={1} rowSpan={1} title={'Esse é um título'} description={'Essa é a descrição'}/>
-            <DashBoardCard colSpan={1} rowSpan={1} title={'Esse é um título'} description={'Essa é a descrição'}/>
         </DashboardSectionStyle>
     )
 }

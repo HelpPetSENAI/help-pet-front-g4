@@ -6,8 +6,8 @@ export const DashboardSectionStyle = styled.section`
     grid-template-rows: auto;
     gap: 1rem;
 
-    width: 100vw;
-    height: 100vh;
+    width: 100vdw;
+    min-height: 100vh;
     padding: 1rem;
 
     background-color: var(--clr-green-50);
