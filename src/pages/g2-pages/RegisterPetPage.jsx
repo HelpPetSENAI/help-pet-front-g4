@@ -1,18 +1,10 @@
 import Header from "./components/pet-header/Header.jsx";
 import * as S from "./style.js";
 import CheckIcon from "./assets/icons/CheckIcon.jsx";
-import DogTag from "./components/tags-components/Dog.jsx";
-import CatTag from "./components/tags-components/Cat.jsx";
-import BirdTag from "./components/tags-components/Bird.jsx";
-import RodentsTag from "./components/tags-components/Rodents.jsx";
-import AmphibianTag from "./components/tags-components/Amphibian.jsx";
-import ArachnidTag from "./components/tags-components/Arachnid.jsx";
-import ReptilesTag from "./components/tags-components/Reptiles.jsx";
-import CnidariaTag from "./components/tags-components/Cnidaria.jsx";
-import FishTag from "./components/tags-components/Fish.jsx";
-import DefaultTag from "./components/tags-components/DefaultTag.jsx";
+import SpecieTag from "./components/tags-components/SpecieTag.jsx";
 import {useState} from "react";
 import axios from 'axios';
+import DefaultTag from "./components/tags-components/DefaultTag.jsx";
 
 function RegisterPetPage() {
     const [formData, setFormData] = useState({
@@ -163,7 +155,7 @@ function RegisterPetPage() {
                                 checked={formData.specie === 'DOG'}
                                 onChange={(e) => handleInputChange('specie', e.target.value)}
                             />
-                            <S.PetLabel htmlFor="dog"><DogTag/></S.PetLabel>
+                            <S.PetLabel htmlFor="dog"><SpecieTag specie="DOG"/></S.PetLabel>
 
                             <S.PetCheckInput
                                 id="cat"
@@ -173,7 +165,7 @@ function RegisterPetPage() {
                                 checked={formData.specie === 'CAT'}
                                 onChange={(e) => handleInputChange('specie', e.target.value)}
                             />
-                            <S.PetLabel htmlFor="cat"><CatTag/></S.PetLabel>
+                            <S.PetLabel htmlFor="cat"><SpecieTag specie="CAT"/></S.PetLabel>
 
                             <S.PetCheckInput
                                 id="bird"
@@ -183,7 +175,7 @@ function RegisterPetPage() {
                                 checked={formData.specie === 'BIRD'}
                                 onChange={(e) => handleInputChange('specie', e.target.value)}
                             />
-                            <S.PetLabel htmlFor="bird"><BirdTag/></S.PetLabel>
+                            <S.PetLabel htmlFor="bird"><SpecieTag specie="BIRD"/></S.PetLabel>
 
                             <S.PetCheckInput
                                 id="fish"
@@ -193,7 +185,7 @@ function RegisterPetPage() {
                                 checked={formData.specie === 'FISH'}
                                 onChange={(e) => handleInputChange('specie', e.target.value)}
                             />
-                            <S.PetLabel htmlFor="fish"><FishTag/></S.PetLabel>
+                            <S.PetLabel htmlFor="fish"><SpecieTag specie="FISH"/></S.PetLabel>
 
                             <S.PetCheckInput
                                 id="rodent"
@@ -203,7 +195,7 @@ function RegisterPetPage() {
                                 checked={formData.specie === 'RODENT'}
                                 onChange={(e) => handleInputChange('specie', e.target.value)}
                             />
-                            <S.PetLabel htmlFor="rodent"><RodentsTag/></S.PetLabel>
+                            <S.PetLabel htmlFor="rodent"><SpecieTag specie="RODENT"/></S.PetLabel>
 
                             <S.PetCheckInput
                                 id="reptile"
@@ -213,7 +205,7 @@ function RegisterPetPage() {
                                 checked={formData.specie === 'REPTILE'}
                                 onChange={(e) => handleInputChange('specie', e.target.value)}
                             />
-                            <S.PetLabel htmlFor="reptile"><ReptilesTag/></S.PetLabel>
+                            <S.PetLabel htmlFor="reptile"><SpecieTag specie="REPTILE"/></S.PetLabel>
 
                             <S.PetCheckInput
                                 id="amphibian"
@@ -223,7 +215,7 @@ function RegisterPetPage() {
                                 checked={formData.specie === 'AMPHIBIAN'}
                                 onChange={(e) => handleInputChange('specie', e.target.value)}
                             />
-                            <S.PetLabel htmlFor="amphibian"><AmphibianTag/></S.PetLabel>
+                            <S.PetLabel htmlFor="amphibian"><SpecieTag specie="AMPHIBIAN"/></S.PetLabel>
 
                             <S.PetCheckInput
                                 id="arachnid"
@@ -233,7 +225,7 @@ function RegisterPetPage() {
                                 checked={formData.specie === 'ARACHNID'}
                                 onChange={(e) => handleInputChange('specie', e.target.value)}
                             />
-                            <S.PetLabel htmlFor="arachnid"><ArachnidTag/></S.PetLabel>
+                            <S.PetLabel htmlFor="arachnid"><SpecieTag specie="ARACHNID"/></S.PetLabel>
 
                             <S.PetCheckInput
                                 id="cnidarians"
@@ -243,7 +235,7 @@ function RegisterPetPage() {
                                 checked={formData.specie === 'CNIDARIANS'}
                                 onChange={(e) => handleInputChange('specie', e.target.value)}
                             />
-                            <S.PetLabel htmlFor="cnidarians"><CnidariaTag/></S.PetLabel>
+                            <S.PetLabel htmlFor="cnidarians"><SpecieTag specie="CNIDARIANS"/></S.PetLabel>
                         </S.ButtonWrapper>
                     </div>
 

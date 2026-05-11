@@ -1,15 +1,14 @@
 import styled from "styled-components";
-import DogTag from "../tags-components/Dog.jsx";
+import SpecieTag from "../tags-components/SpecieTag.jsx";
 
-function DonationCard({url, name, size, breed}) {
+function DonationCard({url, name, size, breed, specie}) {
 
     return (
         <CardContainer>
             <TagWrapper>
-                <DogTag/>
+                <SpecieTag specie={specie}/>
             </TagWrapper>
             <PetImgContainer src={url} alt={`${name}-photo`}/>
-                {/*<img src={url} alt={`${name}-photo`} />*/}
             <CardDescription>
                 <h2>{name}</h2>
                 <CardDescriptionWrapper>
