@@ -3,34 +3,35 @@ import Chart from 'chart.js/auto';
 
 const todaysDate = new Date()
 
-const dayOfTheWeek = todaysDate.toLocaleString('pt-br', {weekday: 'short' })
+const currentDay = todaysDate.toLocaleString('pt-br', {weekday: 'short' })
 
-const tomorrowDate1 = new Date(todaysDate);
-tomorrowDate1.setDate(todaysDate.getDate() + 1);
+const yesterdayDate1 = new Date(todaysDate);
+yesterdayDate1.setDate(todaysDate.getDate() - 1);
 
-const tomorrowDate2 = new Date(todaysDate);
-tomorrowDate2.setDate(todaysDate.getDate() + 2);
+const yesterdayDate2 = new Date(todaysDate);
+yesterdayDate2.setDate(todaysDate.getDate() - 2);
 
-const tomorrowDate3 = new Date(todaysDate);
-tomorrowDate3.setDate(todaysDate.getDate() + 3);
+const yesterdayDate3 = new Date(todaysDate);
+yesterdayDate3.setDate(todaysDate.getDate() - 3);
 
-const tomorrowDate4 = new Date(todaysDate);
-tomorrowDate4.setDate(todaysDate.getDate() + 4);
+const yesterdayDate4 = new Date(todaysDate);
+yesterdayDate4.setDate(todaysDate.getDate() - 4);
 
-const tomorrowDate5 = new Date(todaysDate);
-tomorrowDate5.setDate(todaysDate.getDate() + 5);
+const yesterdayDate5 = new Date(todaysDate);
+yesterdayDate5.setDate(todaysDate.getDate() - 5);
 
-const tomorrowDate6 = new Date(todaysDate);
-tomorrowDate6.setDate(todaysDate.getDate() + 6);
+const yesterdayDate6 = new Date(todaysDate);
+yesterdayDate6.setDate(todaysDate.getDate() - 6);
 
 
-const labels = [dayOfTheWeek, 
-  tomorrowDate1.toLocaleDateString('pt-br', {weekday: 'short' }), 
-  tomorrowDate2.toLocaleDateString('pt-br', {weekday: 'short' }),
-  tomorrowDate3.toLocaleDateString('pt-br', {weekday: 'short' }),
-  tomorrowDate4.toLocaleDateString('pt-br', {weekday: 'short' }),
-  tomorrowDate5.toLocaleDateString('pt-br', {weekday: 'short' }),
-  tomorrowDate6.toLocaleDateString('pt-br', {weekday: 'short' })];
+const labels = [ 
+  yesterdayDate6.toLocaleDateString('pt-br', {weekday: 'short' }),
+  yesterdayDate5.toLocaleDateString('pt-br', {weekday: 'short' }),
+  yesterdayDate4.toLocaleDateString('pt-br', {weekday: 'short' }),
+  yesterdayDate3.toLocaleDateString('pt-br', {weekday: 'short' }),
+  yesterdayDate2.toLocaleDateString('pt-br', {weekday: 'short' }),
+  yesterdayDate1.toLocaleDateString('pt-br', {weekday: 'short' }),
+  currentDay];
 // 2. The Data Object
 const data = {
   labels: labels,
