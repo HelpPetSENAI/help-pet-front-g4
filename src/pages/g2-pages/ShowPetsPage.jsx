@@ -4,10 +4,10 @@ import DonationCard from "./components/donation-card/DonationCard.jsx";
 
 function ShowPetPage() {
 
+
     return (
         <S.Container>
             <Header/>
-
             <S.MainContent>
                 <DonationCard
                     specie="DOG"
