@@ -17,7 +17,6 @@ function RegisterPetPage() {
         gender: '',
         description: '',
         cep: '',
-        userId: 1
     });
 
     const [photos, setPhotos] = useState([]);
@@ -49,9 +48,10 @@ function RegisterPetPage() {
         e.preventDefault();
         setLoading(true);
 
+        const token = "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbm5AZ21haWwuY29tIiwidXNlcklkIjozLCJpYXQiOjE3Nzg1MDY5MjAsImV4cCI6MTc3ODUxMDUyMH0.qjp4wsy6bP1EYASI0dpB_LQ353VoUMGcL1Ygp94aC4MljzaHtwARYSeEntEbQMOB";
+
         try {
             const donationData = {
-                userId: formData.userId,
                 name: formData.name,
                 specie: formData.specie,
                 breed: formData.breed || null,
@@ -70,7 +70,8 @@ function RegisterPetPage() {
                 donationData,
                 {
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
                     }
                 }
             );
@@ -109,7 +110,6 @@ function RegisterPetPage() {
                 gender: '',
                 description: '',
                 cep: '',
-                userId: 1
             });
             setPhotos([]);
 
