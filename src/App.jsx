@@ -1,7 +1,6 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import GlobalStyle from './styles/GlobalStyle.js'
 import ComingSoonPage from './pages/CommingSoonPage.jsx'
-import ComingSoonPage from './pages/CommingSoonPage'
 import NotFoundPage from './pages/NotFoundPage.jsx'
 import ExamplePage from './pages/ExamplePage.jsx'
 import Dashboard from './pages/g8-pages/DashboardPage.jsx'
