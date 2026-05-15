@@ -1,12 +1,12 @@
 import { StyledHealthCheck, StyledStatus, StyledStatusWrapper } from "./style"
 import iconSucess from '../../assets/icons/icon-sucess.svg'
+import iconFail from '../../assets/icons/icon-fail.svg'
 
 export default function HealthCheck() {
-    const isSucessful = true
+    const isSucessful = false
 
     return (
         <StyledHealthCheck $isSucessful={isSucessful}>
-            <h3>Health Check</h3>
             {isSucessful
                 ? <StyledStatusWrapper>
                     <img src={iconSucess} alt="" />
@@ -16,7 +16,13 @@ export default function HealthCheck() {
                     <StyledStatus $isSucessful={isSucessful}>up</StyledStatus>
                 </StyledStatusWrapper>
 
-                : <p>deu erradão isso aí</p>
+                : <StyledStatusWrapper>
+                    <img src={iconFail} alt="" />
+
+                    <h4>API Gateway</h4>
+
+                    <StyledStatus $isSucessful={isSucessful}>down</StyledStatus>
+                </StyledStatusWrapper>
             }
             <p>Última verificação:  15:03:06</p>
         </StyledHealthCheck>

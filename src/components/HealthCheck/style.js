@@ -5,7 +5,6 @@ export const StyledHealthCheck = styled.div`
     display: flex;
     flex-direction: column;
     gap: 8px;
-    font-family: var(--main-font);
 
     > p {
         font-size: 16px;
