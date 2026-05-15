@@ -6,6 +6,8 @@ export const DashboardSectionStyle = styled.section`
     grid-template-rows: auto;
     gap: 1rem;
 
+    font-family: var(--main-font);
+
     width: 100vw;
     height: 100vh;
     padding: 1rem;
