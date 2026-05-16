@@ -3,7 +3,7 @@ import Chart from 'chart.js/auto';
 
 const todaysDate = new Date()
 
-const currentDay = todaysDate.toLocaleString('pt-br', {weekday: 'short' })
+const currentDay = todaysDate.toLocaleString('pt-br', { weekday: 'short' })
 
 const yesterdayDate1 = new Date(todaysDate);
 yesterdayDate1.setDate(todaysDate.getDate() - 1);
@@ -24,41 +24,47 @@ const yesterdayDate6 = new Date(todaysDate);
 yesterdayDate6.setDate(todaysDate.getDate() - 6);
 
 
-const labels = [ 
-  yesterdayDate6.toLocaleDateString('pt-br', {weekday: 'short' }),
-  yesterdayDate5.toLocaleDateString('pt-br', {weekday: 'short' }),
-  yesterdayDate4.toLocaleDateString('pt-br', {weekday: 'short' }),
-  yesterdayDate3.toLocaleDateString('pt-br', {weekday: 'short' }),
-  yesterdayDate2.toLocaleDateString('pt-br', {weekday: 'short' }),
-  yesterdayDate1.toLocaleDateString('pt-br', {weekday: 'short' }),
+const labels = [
+  yesterdayDate6.toLocaleDateString('pt-br', { weekday: 'short' }),
+  yesterdayDate5.toLocaleDateString('pt-br', { weekday: 'short' }),
+  yesterdayDate4.toLocaleDateString('pt-br', { weekday: 'short' }),
+  yesterdayDate3.toLocaleDateString('pt-br', { weekday: 'short' }),
+  yesterdayDate2.toLocaleDateString('pt-br', { weekday: 'short' }),
+  yesterdayDate1.toLocaleDateString('pt-br', { weekday: 'short' }),
   currentDay];
 // 2. The Data Object
 const data = {
   labels: labels,
-  datasets: [{
-    label: 'Quantidade de Requests',
-    data: [65, 59, 80, 81, 56, 55, 40],
-    backgroundColor: [
-      '#81DA87'
-    ]
-  }]
+  datasets: [
+    {
+      label: 'Quantidade de Requisições',
+      data: [65, 59, 80, 81, 56, 55, 40],
+      backgroundColor: ['#81DA87']
+    },
+    {
+      label: 'Quantidade de Respostas',
+      data: [44, 33, 98, 45, 99, 65, 32],
+      backgroundColor: ['#2FA237'],
+    }
+  ]
 };
 
-// 3. The Config Object (This is what React was missing!)
 const config = {
   type: 'bar',
   data: data,
   options: {
     scales: {
+      x: {
+      },
       y: {
         beginAtZero: true
       }
     },
-    // Make sure it resizes nicely inside your Dashboard layout
     responsive: true,
-    maintainAspectRatio: false 
+    maintainAspectRatio: false
   },
 };
+
 
 export default function BarChart() {
   const canvasRef = useRef(null);
@@ -80,7 +86,7 @@ export default function BarChart() {
         chartInstance.current.destroy();
       }
     };
-  }, []); 
+  }, []);
 
   return (
     // Set explicit height/width constraints so it doesn't break your grid layout
