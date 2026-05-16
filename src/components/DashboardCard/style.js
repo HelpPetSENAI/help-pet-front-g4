@@ -1,6 +1,10 @@
 import styled from "styled-components";
 
 export const StyledDashboardCard = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    
     grid-column: span ${props => props.$colSpan};
     grid-row: span ${props => props.$rowSpan};
 

@@ -4,7 +4,8 @@ export const DashboardSectionStyle = styled.section`
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: auto;
-    gap: 1rem;
+    column-gap: 1rem;
+    row-gap: 0.5rem;
 
     font-family: var(--main-font);
 
