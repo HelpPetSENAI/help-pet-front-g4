@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
+import { StyledCanvasWrapper } from './style';
 
 const todaysDate = new Date()
 
@@ -54,8 +55,6 @@ const config = {
   data: data,
   options: {
     scales: {
-      x: {
-      },
       y: {
         beginAtZero: true
       }
@@ -90,8 +89,8 @@ export default function BarChart() {
 
   return (
     // Set explicit height/width constraints so it doesn't break your grid layout
-    <div style={{ position: 'relative', width: '100%', height: '500px' }}>
+    <StyledCanvasWrapper>
       <canvas ref={canvasRef}></canvas>
-    </div>
+    </StyledCanvasWrapper>
   );
 }
