@@ -12,6 +12,10 @@ export default function Dashboard(){
             <DashBoardCard colSpan={1} rowSpan={1} title={'Health Check'} content={<HealthCheck />}/>
             <DashBoardCard colSpan={1} rowSpan={1} title={'Health Check'} content={<HealthCheck />}/>
             <DashBoardCard colSpan={1} rowSpan={1} title={'Health Check'} content={<HealthCheck />}/>
+            <DashBoardCard colSpan={1} rowSpan={1} title={'Health Check'} content={<HealthCheck />}/>
+            <DashBoardCard colSpan={1} rowSpan={1} title={'Health Check'} content={<HealthCheck />}/>
+            <DashBoardCard colSpan={1} rowSpan={1} title={'Health Check'} content={<HealthCheck />}/>
+            <DashBoardCard colSpan={1} rowSpan={1} title={'Health Check'} content={<HealthCheck />}/>
         </DashboardSectionStyle>
     )
 }
