@@ -5,6 +5,17 @@ import iconFail from '../../assets/icons/icon-fail.svg'
 export default function HealthCheck() {
     const isSucessful = false
 
+    // const response = await fetch('http://localhost:8080/api/health');
+    
+    // const healthData = response.json
+
+    // if(healthData.overall_status === 'UP') {
+    //     isSucessful = true
+    // } else {
+    //     isSucessful = false
+    // }
+
+
     return (
         <StyledHealthCheck $isSucessful={isSucessful}>
             {isSucessful

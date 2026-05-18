@@ -33,7 +33,7 @@ const labels = [
   yesterdayDate2.toLocaleDateString('pt-br', { weekday: 'short' }),
   yesterdayDate1.toLocaleDateString('pt-br', { weekday: 'short' }),
   currentDay];
-// 2. The Data Object
+
 const data = {
   labels: labels,
   datasets: [
@@ -64,7 +64,7 @@ const config = {
   },
 };
 
-
+// Não sei muito bem como essa parte funciona (códiguin de ia)
 export default function BarChart() {
   const canvasRef = useRef(null);
   const chartInstance = useRef(null);
@@ -87,8 +87,18 @@ export default function BarChart() {
     };
   }, []);
 
+  // Consumo da api
+  // try {
+  //   // Não sei o resto da url ainda
+  //   const response = await fetch("http://localhost:8080/")
+
+  //   const requisitionAmountPerDay = new Array(response.data.req)
+  //   const responseAmountPerDay = new Array(response.data)
+  // } catch {
+  //   alert("Erro em obter informações para o dashboard")
+  // }
+
   return (
-    // Set explicit height/width constraints so it doesn't break your grid layout
     <StyledCanvasWrapper>
       <canvas ref={canvasRef}></canvas>
     </StyledCanvasWrapper>
