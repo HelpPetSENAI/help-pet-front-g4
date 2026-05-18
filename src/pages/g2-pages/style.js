@@ -7,10 +7,9 @@ export const Container = styled.div`
 export const MainContent = styled.main`
     display: flex;
     font-family: var(--primary-font), sans-serif;
-    flex-direction: column;
-    align-items: center;
+    justify-content: center;
     gap: 20px;
-    padding: 30px 0;
+    padding: 30px;
     
     border-radius: 30px 30px 0 0;
     border: 2px solid var(--clr-green-1000, #061407);

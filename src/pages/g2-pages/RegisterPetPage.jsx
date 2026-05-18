@@ -66,7 +66,7 @@ function RegisterPetPage() {
             console.log('Enviando doação:', donationData);
 
             const donationResponse = await axios.post(
-                'http://localhost:8080/donations/create',
+                'https://help-pet-back-g2.azurewebsites.net/donations/create',
                 donationData,
                 {
                     headers: {
