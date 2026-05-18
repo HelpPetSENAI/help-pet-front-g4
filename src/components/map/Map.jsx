@@ -1,7 +1,8 @@
 import React, { useState, useCallback, useEffect, useMemo } from "react";
 import { GoogleMap, LoadScript } from "@react-google-maps/api";
 import CustomMarker from "./CustomMarker";
-import { mockAnimals } from "../../data/mockAnimals";
+import { getDonations } from "../../services/donationApi";
+import { normalizeDonation } from "../../services/donationMapper";
 
 const LIBRARIES = ["marker"];
 
@@ -19,15 +20,81 @@ const calculateDistance = (lat1, lon1, lat2, lon2) => {
 
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-
     return R * c;
 };
+
+const hasValidCoordinates = (animal) =>
+    Number.isFinite(animal.lat) && Number.isFinite(animal.lng);
+
+const isInAgeRange = (ageMonths, selectedRange) => {
+    if (ageMonths === null || ageMonths === undefined || ageMonths === "") return true;
+
+    const months = Number(ageMonths);
+
+    if (!selectedRange || Number.isNaN(months)) return true;
+
+    const ranges = {
+        "0–2 meses": [0, 2],
+        "2–4 meses": [2, 4],
+        "4–6 meses": [4, 6],
+        "6–12 meses": [6, 12],
+        "1–2 anos": [12, 24],
+        "2–5 anos": [24, 60],
+        "5–8 anos": [60, 96],
+        "8+ anos": [96, Infinity],
+    };
+
+    const range = ranges[selectedRange];
+    if (!range) return true;
+
+    const [min, max] = range;
+    return months >= min && months <= max;
+};
+
+const geocodeCep = (geocoder, animal) =>
+    new Promise((resolve) => {
+        if (hasValidCoordinates(animal)) {
+            resolve(animal);
+            return;
+        }
+
+        if (!animal.cep) {
+            resolve(animal);
+            return;
+        }
+
+        geocoder.geocode(
+            { address: `${animal.cep}, Brasil`, region: "br" },
+            (results, status) => {
+                if (status === "OK" && results?.[0]) {
+                    const location = results[0].geometry.location;
+
+                    resolve({
+                        ...animal,
+                        lat: location.lat(),
+                        lng: location.lng(),
+                    });
+                    return;
+                }
+
+                console.warn("Não foi possível geocodificar o CEP do pet:", {
+                    id: animal.id,
+                    cep: animal.cep,
+                    status,
+                });
+
+                resolve(animal);
+            }
+        );
+    });
 
 export default function MapComponent({ setMap, searchLocation, filters }) {
     const [mapInstance, setMapInstance] = useState(null);
     const [sheetHeight, setSheetHeight] = useState(260);
     const [isDragging, setIsDragging] = useState(false);
     const [selectedAnimalId, setSelectedAnimalId] = useState(null);
+    const [animalsFromApi, setAnimalsFromApi] = useState([]);
+    const [animals, setAnimals] = useState([]);
 
     const containerStyle = {
         width: "100%",
@@ -39,15 +106,69 @@ export default function MapComponent({ setMap, searchLocation, filters }) {
         lng: -46.633308,
     };
 
+    useEffect(() => {
+        let isMounted = true;
+
+        const loadDonations = async () => {
+            try {
+                const donations = await getDonations();
+                const normalizedDonations = donations
+                    .map(normalizeDonation)
+                    .filter((animal) => animal.isAvailable !== false);
+
+                if (isMounted) {
+                    setAnimalsFromApi(normalizedDonations);
+                }
+            } catch (error) {
+                console.error("Erro ao carregar doações da API:", error);
+
+                if (isMounted) {
+                    setAnimalsFromApi([]);
+                }
+            }
+        };
+
+        loadDonations();
+
+        return () => {
+            isMounted = false;
+        };
+    }, []);
+
+    useEffect(() => {
+        if (!mapInstance || !window.google?.maps) return;
+
+        let isMounted = true;
+        const geocoder = new window.google.maps.Geocoder();
+
+        const geocodeAnimals = async () => {
+            const animalsWithCoordinates = await Promise.all(
+                animalsFromApi.map((animal) => geocodeCep(geocoder, animal))
+            );
+
+            if (isMounted) {
+                setAnimals(animalsWithCoordinates);
+            }
+        };
+
+        geocodeAnimals();
+
+        return () => {
+            isMounted = false;
+        };
+    }, [animalsFromApi, mapInstance]);
+
     const filteredAnimals = useMemo(() => {
-        let filtered = [...mockAnimals];
+        let filtered = animals.filter(hasValidCoordinates);
 
         if (filters.tipoAnimal) {
             filtered = filtered.filter((animal) => animal.type === filters.tipoAnimal);
         }
 
         if (filters.idade) {
-            filtered = filtered.filter((animal) => animal.age === filters.idade);
+            filtered = filtered.filter((animal) =>
+                isInAgeRange(animal.ageMonths, filters.idade)
+            );
         }
 
         if (filters.raca) {
@@ -74,12 +195,20 @@ export default function MapComponent({ setMap, searchLocation, filters }) {
 
         if (filters.vacinado) {
             const isVacinado = filters.vacinado === "sim";
-            filtered = filtered.filter((animal) => animal.vacinado === isVacinado);
+            filtered = filtered.filter(
+                (animal) =>
+                    typeof animal.vacinado !== "boolean" ||
+                    animal.vacinado === isVacinado
+            );
         }
 
         if (filters.castrado) {
             const isCastrado = filters.castrado === "sim";
-            filtered = filtered.filter((animal) => animal.castrado === isCastrado);
+            filtered = filtered.filter(
+                (animal) =>
+                    typeof animal.castrado !== "boolean" ||
+                    animal.castrado === isCastrado
+            );
         }
 
         if (searchLocation && filters.distanciaMax !== undefined) {
@@ -96,7 +225,7 @@ export default function MapComponent({ setMap, searchLocation, filters }) {
         }
 
         return filtered;
-    }, [filters, searchLocation]);
+    }, [animals, filters, searchLocation]);
 
     const nearbyAnimals = useMemo(() => {
         if (!searchLocation) return [];
@@ -155,6 +284,7 @@ export default function MapComponent({ setMap, searchLocation, filters }) {
         },
         [setMap]
     );
+
     const handleNearbyCardClick = (animal) => {
         if (!mapInstance) return;
 
@@ -170,6 +300,7 @@ export default function MapComponent({ setMap, searchLocation, filters }) {
             mapInstance.setZoom(17);
         }, 300);
     };
+
     return (
         <LoadScript
             googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}
@@ -271,7 +402,7 @@ export default function MapComponent({ setMap, searchLocation, filters }) {
                                         style={{
                                             border: "1px solid #000",
                                             background: "#fff",
-                                            borderRadius: "16px",         
+                                            borderRadius: "16px",
                                             padding: "10px",
                                             textAlign: "left",
                                             cursor: "pointer",
@@ -295,7 +426,7 @@ export default function MapComponent({ setMap, searchLocation, filters }) {
                                         <strong>{animal.name}</strong>
 
                                         <p style={{ margin: "4px 0", fontSize: "13px" }}>
-                                            {animal.type} • {animal.raca}
+                                            {animal.typeLabel} • {animal.raca}
                                         </p>
 
                                         <small>{animal.distance.toFixed(2)} km de distância</small>

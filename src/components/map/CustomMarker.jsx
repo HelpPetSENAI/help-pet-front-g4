@@ -18,6 +18,24 @@ const calculateDistance = (lat1, lon1, lat2, lon2) => {
     return R * c;
 };
 
+const escapeHtml = (value) =>
+    String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+
+const formatOptionalValue = (value, fallback = "Não informado") => {
+    if (value === null || value === undefined || value === "") return fallback;
+    return value;
+};
+
+const formatBoolean = (value, trueText, falseText) => {
+    if (typeof value !== "boolean") return "Não informado";
+    return value ? trueText : falseText;
+};
+
 const CustomMarker = ({
     map,
     position,
@@ -51,32 +69,50 @@ const CustomMarker = ({
             `;
         }
 
+        const photo = escapeHtml(animal.photo || animal.image || animal.url);
+        const name = escapeHtml(animal.name);
+        const description = escapeHtml(animal.description);
+        const typeLabel = escapeHtml(animal.typeLabel || (type === "cat" ? "Gato" : "Cachorro"));
+        const breed = escapeHtml(formatOptionalValue(animal.raca));
+        const age = escapeHtml(formatOptionalValue(animal.age));
+        const gender = escapeHtml(formatOptionalValue(animal.sexo));
+        const size = escapeHtml(formatOptionalValue(animal.porte));
+        const weight = escapeHtml(
+            animal.peso || animal.weight ? `${animal.peso || animal.weight} kg` : "Não informado"
+        );
+        const cep = escapeHtml(formatOptionalValue(animal.cep));
+        const castrado = escapeHtml(formatBoolean(animal.castrado, "Sim", "Não"));
+        const vacinado = escapeHtml(formatBoolean(animal.vacinado, "Em dia", "Pendente"));
+
         const infoWindow = new google.maps.InfoWindow({
             content: `
                 <div class="${styleCard.card}">
                     <h2 class="${styleCard.title}">Lista de adoção</h2>
 
                     <div class="${styleCard.imageContainer}">
-                        <img src="${animal.photo}" alt="${animal.name}" class="${styleCard.image}" />
+                        <img src="${photo}" alt="${name}" class="${styleCard.image}" />
                     </div>
 
-                    <h3 class="${styleCard.name}">${animal.name}</h3>
+                    <h3 class="${styleCard.name}">${name}</h3>
 
                     <p class="${styleCard.subtitle}">
-                        ${animal.temperamento.join(" e ")}
+                        ${typeLabel} • ${breed}
                     </p>
 
                     ${distanceText}
 
                     <ul class="${styleCard.details}">
-                        <li><strong>Nome:</strong> ${animal.name}</li>
-                        <li><strong>Idade:</strong> ${animal.age}</li>
-                        <li><strong>Sexo:</strong> ${animal.sexo === "macho" ? "Macho" : "Fêmea"}</li>
-                        <li><strong>Peso:</strong> ${animal.peso} kg</li>
-                        <li><strong>Altura:</strong> ${animal.altura} cm</li>
-                        <li><strong>Olhos:</strong> ${animal.olhos}</li>
-                        <li><strong>Castrado:</strong> ${animal.castrado ? "Sim" : "Não"}</li>
-                        <li><strong>Vacinas:</strong> ${animal.vacinado ? "Em dia" : "Pendentes"}</li>
+                        <li><strong>Nome:</strong> ${name}</li>
+                        <li><strong>Espécie:</strong> ${typeLabel}</li>
+                        <li><strong>Raça:</strong> ${breed}</li>
+                        <li><strong>Idade:</strong> ${age}</li>
+                        <li><strong>Sexo:</strong> ${gender}</li>
+                        <li><strong>Porte:</strong> ${size}</li>
+                        <li><strong>Peso:</strong> ${weight}</li>
+                        <li><strong>CEP:</strong> ${cep}</li>
+                        <li><strong>Castrado:</strong> ${castrado}</li>
+                        <li><strong>Vacinas:</strong> ${vacinado}</li>
+                        <li><strong>Descrição:</strong> ${description}</li>
                     </ul>
 
                     <div class="${styleCard.actions}">
@@ -112,7 +148,7 @@ const CustomMarker = ({
 
         infoWindow.open(map, markerRef.current);
         infoWindowRef.current = infoWindow;
-    }, [map, position, animal, searchLocation]);
+    }, [map, position, animal, type, searchLocation]);
 
     useEffect(() => {
         if (!map || !position) return;
@@ -120,6 +156,7 @@ const CustomMarker = ({
         const emoji = type === "cat" ? "🐱" : "🐶";
         const bgColor = type === "cat" ? "#FF9800" : "#4CAF50";
         const fontFamily = "'Archivo', sans-serif";
+        const markerName = escapeHtml(animal.name).slice(0, 10);
 
         const marker = new google.maps.Marker({
             map,
@@ -130,7 +167,7 @@ const CustomMarker = ({
                         <circle cx="20" cy="20" r="18" fill="${bgColor}" stroke="white" stroke-width="2"/>
                         <text x="20" y="28" text-anchor="middle" font-size="24" fill="white" font-family="${fontFamily}">${emoji}</text>
                         <rect x="10" y="38" width="20" height="12" fill="white" rx="2" stroke="#ccc" stroke-width="1"/>
-                        <text x="20" y="47" text-anchor="middle" font-size="10" fill="#333" font-family="${fontFamily}">${animal.name}</text>
+                        <text x="20" y="47" text-anchor="middle" font-size="10" fill="#333" font-family="${fontFamily}">${markerName}</text>
                     </svg>
                 `)}`,
                 scaledSize: new google.maps.Size(40, 50),
