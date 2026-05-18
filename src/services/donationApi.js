@@ -1,8 +1,4 @@
-const API_BASE_URL = (
-    import.meta.env.VITE_API_BASE_URL ||
-    "https://help-pet-back-g2.azurewebsites.net"
-).replace(/\/$/, "");
-
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "/api").replace(/\/$/, "");
 const API_TOKEN = import.meta.env.VITE_API_TOKEN;
 
 const shouldUseToken =
@@ -10,12 +6,17 @@ const shouldUseToken =
     API_TOKEN.trim() !== "" &&
     API_TOKEN.trim() !== "COLE_SEU_TOKEN_AQUI";
 
+const isSameOriginApi = API_BASE_URL.startsWith("/");
+
 const getHeaders = () => {
     const headers = {
         Accept: "application/json",
     };
 
-    if (shouldUseToken) {
+    // Quando VITE_API_BASE_URL=/api, a chamada fica na mesma origem do Vite
+    // e o proxy envia o Authorization para a API real, evitando o preflight CORS.
+    // Se algum dia usar a URL real direto no navegador, este header volta a ser enviado.
+    if (shouldUseToken && !isSameOriginApi) {
         const token = API_TOKEN.trim();
         headers.Authorization = token.toLowerCase().startsWith("bearer ")
             ? token

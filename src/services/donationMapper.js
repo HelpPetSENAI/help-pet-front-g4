@@ -66,7 +66,7 @@ export const normalizeDonation = (donation) => {
             ? null
             : Number(rawAgeMonths);
 
-    const species = normalizeText(donation?.species || donation?.type).toLowerCase();
+    const species = normalizeText(donation?.species ?? donation?.specie ?? donation?.type).toLowerCase();
     const size = normalizeText(donation?.size || donation?.porte).toLowerCase();
     const gender = normalizeText(donation?.gender || donation?.sexo).toLowerCase();
     const photo = getPhotoUrl(donation);
