@@ -2,10 +2,10 @@ import { StyledHealthCheck, StyledStatus, StyledStatusWrapper } from "./style"
 import iconSucess from '../../assets/icons/icon-sucess.svg'
 import iconFail from '../../assets/icons/icon-fail.svg'
 
-export default function HealthCheck() {
+export default function HealthCheck({fetchUrl, serviceName, lastUpdate}) {
     const isSucessful = false
 
-    // const response = await fetch('http://localhost:8080/api/health');
+    // const response = await fetch('{fetchUrl}');
     
     // const healthData = response.json
 
@@ -22,7 +22,7 @@ export default function HealthCheck() {
                 ? <StyledStatusWrapper>
                     <img src={iconSucess} alt="" />
 
-                    <h4>API Gateway</h4>
+                    <h4>{serviceName}</h4>
 
                     <StyledStatus $isSucessful={isSucessful}>up</StyledStatus>
                 </StyledStatusWrapper>
@@ -30,12 +30,12 @@ export default function HealthCheck() {
                 : <StyledStatusWrapper>
                     <img src={iconFail} alt="" />
 
-                    <h4>API Gateway</h4>
+                    <h4>{serviceName}</h4>
 
                     <StyledStatus $isSucessful={isSucessful}>down</StyledStatus>
                 </StyledStatusWrapper>
             }
-            <p>Última verificação:  15:03:06</p>
+            <p>Última verificação:  {lastUpdate}</p>
         </StyledHealthCheck>
     )
 }

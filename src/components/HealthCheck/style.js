@@ -2,9 +2,11 @@ import styled from "styled-components";
 
 
 export const StyledHealthCheck = styled.div`
+    flex: 1;
     display: flex;
     flex-direction: column;
     gap: 8px;
+    padding-top: 8px;
 
     > p {
         font-size: 16px;
@@ -20,7 +22,6 @@ export const StyledTitle = styled.h3`
 
 export const StyledStatusWrapper = styled.div`
     display: flex;
-    justify-content: center;
     align-items: center;
     gap: 8px;
 
