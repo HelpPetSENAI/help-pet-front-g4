@@ -38,5 +38,10 @@ export const StyledStatus = styled.p`
     
     border-radius: 7.5px;
     color: var(--clr-neutral-100);
-    background-color: ${props => props.$isSucessful ? 'var(--clr-green-500)' : 'var(--clr-red-500)'};
+    background-color: ${props =>
+        props.$isLoading
+            ? 'var(--clr-neutral-500)'
+            : props.$isSucessful
+                ? 'var(--clr-green-500)'
+                : 'var(--clr-red-500)'};
 `

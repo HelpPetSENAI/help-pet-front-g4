@@ -1,105 +1,123 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Chart from 'chart.js/auto';
 import { StyledCanvasWrapper } from './style';
 
-const todaysDate = new Date()
+// Labels dos últimos 7 dias (mantém a lógica original do amigo)
+function getLast7DaysLabels() {
+  const today = new Date();
+  const labels = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(today);
+    d.setDate(today.getDate() - i);
+    labels.push(d.toLocaleDateString('pt-br', { weekday: 'short', day: '2-digit' }));
+  }
+  return labels;
+}
 
-const currentDay = todaysDate.toLocaleString('pt-br', { weekday: 'short' })
+// Dados estáticos de fallback (dados originais do amigo)
+const FALLBACK_REQUESTS = [65, 59, 80, 81, 56, 55, 40];
+const FALLBACK_RESPONSES = [44, 33, 98, 45, 99, 65, 32];
 
-const yesterdayDate1 = new Date(todaysDate);
-yesterdayDate1.setDate(todaysDate.getDate() - 1);
-
-const yesterdayDate2 = new Date(todaysDate);
-yesterdayDate2.setDate(todaysDate.getDate() - 2);
-
-const yesterdayDate3 = new Date(todaysDate);
-yesterdayDate3.setDate(todaysDate.getDate() - 3);
-
-const yesterdayDate4 = new Date(todaysDate);
-yesterdayDate4.setDate(todaysDate.getDate() - 4);
-
-const yesterdayDate5 = new Date(todaysDate);
-yesterdayDate5.setDate(todaysDate.getDate() - 5);
-
-const yesterdayDate6 = new Date(todaysDate);
-yesterdayDate6.setDate(todaysDate.getDate() - 6);
-
-
-const labels = [
-  yesterdayDate6.toLocaleDateString('pt-br', { weekday: 'short' }),
-  yesterdayDate5.toLocaleDateString('pt-br', { weekday: 'short' }),
-  yesterdayDate4.toLocaleDateString('pt-br', { weekday: 'short' }),
-  yesterdayDate3.toLocaleDateString('pt-br', { weekday: 'short' }),
-  yesterdayDate2.toLocaleDateString('pt-br', { weekday: 'short' }),
-  yesterdayDate1.toLocaleDateString('pt-br', { weekday: 'short' }),
-  currentDay];
-
-const data = {
-  labels: labels,
-  datasets: [
-    {
-      label: 'Quantidade de Requisições',
-      data: [65, 59, 80, 81, 56, 55, 40],
-      backgroundColor: ['#81DA87']
-    },
-    {
-      label: 'Quantidade de Respostas',
-      data: [44, 33, 98, 45, 99, 65, 32],
-      backgroundColor: ['#2FA237'],
-    }
-  ]
-};
-
-const config = {
-  type: 'bar',
-  data: data,
-  options: {
-    scales: {
-      y: {
-        beginAtZero: true
-      }
-    },
-    responsive: true,
-    maintainAspectRatio: false
-  },
-};
-
-// Não sei muito bem como essa parte funciona (códiguin de ia)
 export default function BarChart() {
   const canvasRef = useRef(null);
   const chartInstance = useRef(null);
+  const [metricsData, setMetricsData] = useState(null);
+  const [usingFallback, setUsingFallback] = useState(false);
 
+  // Buscar métricas reais do gateway
   useEffect(() => {
-    // Clean up previous chart instance to prevent errors
+    const fetchMetrics = async () => {
+      if (document.visibilityState === 'hidden') return;
+      try {
+        const response = await fetch('/api/admin/metrics/weekly', {
+          credentials: 'include',
+        });
+        if (!response.ok) throw new Error(`Status ${response.status}`);
+        const data = await response.json();
+        setMetricsData(data);
+        setUsingFallback(false);
+      } catch {
+        setUsingFallback(true);
+        setMetricsData(null);
+      }
+    };
+
+    fetchMetrics();
+    const interval = setInterval(fetchMetrics, 30000);
+    const onVisible = () => { if (document.visibilityState === 'visible') fetchMetrics(); };
+    document.addEventListener('visibilitychange', onVisible);
+    return () => {
+      clearInterval(interval);
+      document.removeEventListener('visibilitychange', onVisible);
+    };
+  }, []);
+
+  // Renderizar o chart sempre que os dados mudarem
+  useEffect(() => {
+    if (!canvasRef.current) return;
+
+    const labels = getLast7DaysLabels();
+    let requestsData, responsesData;
+
+    if (metricsData && Array.isArray(metricsData)) {
+      requestsData = metricsData.map(item => item.requests ?? 0);
+      responsesData = metricsData.map(item => item.responses ?? 0);
+    } else {
+      requestsData = FALLBACK_REQUESTS;
+      responsesData = FALLBACK_RESPONSES;
+    }
+
+    const config = {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [
+          {
+            label: 'Quantidade de Requisições',
+            data: requestsData,
+            backgroundColor: '#81DA87',
+          },
+          {
+            label: 'Quantidade de Respostas',
+            data: responsesData,
+            backgroundColor: '#2FA237',
+          },
+        ],
+      },
+      options: {
+        scales: {
+          y: { beginAtZero: true },
+        },
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'bottom' },
+        },
+      },
+    };
+
+    // Destruir instância anterior antes de criar nova
     if (chartInstance.current) {
       chartInstance.current.destroy();
     }
 
-    // Initialize the chart
     const ctx = canvasRef.current.getContext('2d');
     chartInstance.current = new Chart(ctx, config);
 
-    // Clean up when the component unmounts
     return () => {
       if (chartInstance.current) {
         chartInstance.current.destroy();
       }
     };
-  }, []);
-
-  // Consumo da api
-  // try {
-  //   // Não sei o resto da url ainda
-  //   const response = await fetch("http://localhost:8080/")
-
-  //   const requisitionAmountPerDay = new Array(response.data.req)
-  //   const responseAmountPerDay = new Array(response.data)
-  // } catch {
-  //   alert("Erro em obter informações para o dashboard")
-  // }
+  }, [metricsData, usingFallback]);
 
   return (
     <StyledCanvasWrapper>
+      {usingFallback && (
+        <p style={{ fontSize: '12px', color: 'rgba(0,0,0,0.45)', marginBottom: '4px' }}>
+          ⚠️ Gateway offline — exibindo dados de exemplo
+        </p>
+      )}
       <canvas ref={canvasRef}></canvas>
     </StyledCanvasWrapper>
   );

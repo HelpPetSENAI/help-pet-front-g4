@@ -8,7 +8,7 @@ export const DashboardSectionStyle = styled.section`
 
     font-family: var(--main-font);
 
-    width: 100vdw;
+    width: 100vw;
     min-height: 100vh;
     padding: 1rem;
 
