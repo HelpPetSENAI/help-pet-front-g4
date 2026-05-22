@@ -133,7 +133,7 @@ function RegisterPetPage() {
     return (
         <S.Container>
             <Header />
-            <S.MainContent>
+            <S.MainContentRegister>
                 <S.TitleH1>Cadastrar uma nova doação</S.TitleH1>
                 <S.Form onSubmit={handleSubmit}>
                     <div>
@@ -380,7 +380,7 @@ function RegisterPetPage() {
                         <CheckIcon />
                     </S.DonationButton>
                 </S.Form>
-            </S.MainContent>
+            </S.MainContentRegister>
         </S.Container>
     );
 }

@@ -16,6 +16,19 @@ export const MainContent = styled.main`
     background: var(--crl-neutral-100, #FFF);
 `;
 
+export const MainContentRegister = styled.main`
+    display: flex;
+    flex-direction: column;
+    font-family: var(--primary-font), sans-serif;
+    justify-content: center;
+    gap: 20px;
+    padding: 30px;
+    
+    border-radius: 30px 30px 0 0;
+    border: 2px solid var(--clr-green-1000, #061407);
+    background: var(--crl-neutral-100, #FFF);
+`;
+
 export const Form = styled.form`
     display: flex;
     width: 80%;

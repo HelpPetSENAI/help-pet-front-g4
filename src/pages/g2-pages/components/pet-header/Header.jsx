@@ -2,8 +2,9 @@ import * as S from "./style.js";
 import HelpPetLogo from "../../assets/icons/HelpPetLogo.jsx";
 import HelpPetLogoText from "../../assets/icons/HelpPetLogoText.jsx";
 import LeftArrow from "../../assets/icons/LeftArrow.jsx";
+import HamburguerIcon from "../../assets/icons/HamburguerIcon.jsx";
 
-function Header() {
+function Header({IsHamburguer}) {
 
     return (
         <S.PetHeader>
@@ -11,7 +12,7 @@ function Header() {
                 <HelpPetLogo />
                 <HelpPetLogoText />
             </S.LogoContainer>
-            <LeftArrow />
+            {IsHamburguer ? <HamburguerIcon /> : <LeftArrow /> }
         </S.PetHeader>
     );
 }

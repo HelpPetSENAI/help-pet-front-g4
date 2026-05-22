@@ -3,6 +3,7 @@ import * as S from "./style.js";
 import DonationCard from "./components/donation-card/DonationCard.jsx";
 import axios from "axios";
 import {useEffect, useState} from "react";
+import SideBar from "./components/header-side-bar/Index.jsx";
 
 function ShowPetPage() {
 
@@ -10,28 +11,29 @@ function ShowPetPage() {
     const [donations, setDonations] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        axios.get("https://help-pet-back-g2.azurewebsites.net/donations/viewAll", {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        })
-            .then(response => {
-                setDonations(response.data);
-                console.log(response.data);
-            })
-            .catch(error => {
-                console.error("Erro ao buscar doações:", error);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
-
-    }, []);
+    // useEffect(() => {
+    //     axios.get("https://help-pet-back-g2.azurewebsites.net/donations/viewAll", {
+    //         headers: {
+    //             'Authorization': `Bearer ${token}`
+    //         }
+    //     })
+    //         .then(response => {
+    //             setDonations(response.data);
+    //             console.log(response.data);
+    //         })
+    //         .catch(error => {
+    //             console.error("Erro ao buscar doações:", error);
+    //         })
+    //         .finally(() => {
+    //             setLoading(false);
+    //         });
+    //
+    // }, []);
 
     return (
         <S.Container>
-            <Header/>
+            <Header IsHamburguer={true}/>
+            <SideBar />
             <S.MainContent>
                 {loading ? ( <p>Carregando pets...</p> ) : (
                     donations.map((donation) => (
