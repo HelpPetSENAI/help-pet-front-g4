@@ -7,7 +7,7 @@ import { DashboardSectionStyle } from "./DashboardSectionStyle";
 export default function Dashboard(){
     return (
         <DashboardSectionStyle >
-            <DashBoardCard colSpan={3} rowSpan={4} title={'Gráfico de barra'} 
+            <DashBoardCard colSpan={2} rowSpan={4} title={'Gráfico de barra'} 
             description={'Quantidades de  requisições e respostas desta semana'} content={<BarChart />}/>
             <DashBoardCard colSpan={1} rowSpan={1} title={'Health Check'} 
             content={<HealthCheck serviceName={'API gateway'} />}/>
