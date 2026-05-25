@@ -1,9 +1,9 @@
-import Header from "./components/pet-header/Header.jsx";
-import * as S from "./style.js";
-import DonationCard from "./components/donation-card/DonationCard.jsx";
+import Header from "../../components/pet-header/Header.jsx";
+import * as S from "../RegisterPetPage/style.js";
+import DonationCard from "../../components/donation-card/DonationCard.jsx";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import SideBar from "./components/header-side-bar/Index.jsx";
+import SideBar from "../../components/header-side-bar/Index.jsx";
 
 function ShowPetPage() {
     const token = "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbm5AZ21haWwuY29tIiwidXNlcklkIjozLCJpYXQiOjE3NzkxMDQzMTV9.SuusoaQ2crfm5FTC5k4xHMXAvBU98h0W7SqBIADwfVI7alfIsuGxQX5yvzpntRPq";
