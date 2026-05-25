@@ -13,54 +13,15 @@ import { DashboardSectionStyle } from "./DashboardSectionStyle";
  * então serão exibidos como NOT_CONFIGURED automaticamente pelo health endpoint.
  */
 const SERVICE_CARDS = [
-    { key: 'gateway',           title: 'API Gateway',      description: 'Status do gateway central' },
-    { key: 'g1_auth_users',     title: 'G8 / G1 - Auth',   description: 'Microsserviço de pets e usuários' },
-    { key: 'g2_pets',           title: 'G2 - Pets',        description: 'Cadastro e consulta de pets' },
-    { key: 'g3_adoption',       title: 'G3 - Adoption',    description: 'Fluxos de adoção' },
-    { key: 'g4_chat',           title: 'G4 - Chat',        description: 'Mensagens e conversas' },
-    { key: 'g5_notifications',  title: 'G5 - Notificações',description: 'Envio de notificações' },
+    { key: 'gateway',           serviceName: 'API Gateway' },
+    { key: 'g1_auth_users',     serviceName: 'G8 / G1 - Auth' },
+    { key: 'g2_pets',           serviceName: 'G2 - Pets' },
+    { key: 'g3_adoption',       serviceName: 'G3 - Adoção' },
+    { key: 'g4_chat',           serviceName: 'G4 - Conversas' },
+    { key: 'g5_notifications',  serviceName: 'G5 - Notificações' },
 ];
 
 export default function Dashboard() {
-    const [healthData, setHealthData] = useState(null);
-    const [lastCheck, setLastCheck] = useState(null);
-
-    useEffect(() => {
-        const fetchHealth = async () => {
-            if (document.visibilityState === 'hidden') return;
-            try {
-                const response = await fetch('/api/health');
-                const data = await response.json().catch(() => null);
-                if (data) {
-                    setHealthData(data);
-                } else if (!response.ok) {
-                    throw new Error(`Status ${response.status}`);
-                }
-            } catch {
-                setHealthData(prev => prev ?? { gateway_status: 'DOWN', services: {} });
-            } finally {
-                setLastCheck(new Date().toLocaleTimeString('pt-br'));
-            }
-        };
-
-        fetchHealth();
-        const interval = setInterval(fetchHealth, 10000);
-        const onVisible = () => { if (document.visibilityState === 'visible') fetchHealth(); };
-        document.addEventListener('visibilitychange', onVisible);
-        return () => {
-            clearInterval(interval);
-            document.removeEventListener('visibilitychange', onVisible);
-        };
-    }, []);
-
-    /**
-     * Resolve o status de cada serviço a partir da resposta do /api/health
-     */
-    const getStatus = (key) => {
-        if (!healthData) return undefined; // carregando
-        if (key === 'gateway') return healthData.gateway_status;
-        return healthData.services?.[key] || 'NOT_CONFIGURED';
-    };
 
     return (
         <DashboardSectionStyle>
@@ -69,7 +30,7 @@ export default function Dashboard() {
                 colSpan={3}
                 rowSpan={4}
                 title={'Gráfico de barra'}
-                description={'Quantidade de requisições e respostas divididas por dia da semana'}
+                description={'Quantidades de requisições e respostas dos últimos 7 dias'}
                 content={<BarChart />}
             />
 
@@ -79,16 +40,14 @@ export default function Dashboard() {
                     key={service.key}
                     colSpan={1}
                     rowSpan={1}
-                    title={service.title}
-                    description={service.description}
+                    title={service.serviceName}
                     content={
                         <HealthCheck
-                            title={service.title}
-                            status={getStatus(service.key)}
-                            lastCheck={lastCheck}
+                            serviceName={service.serviceName}
+                            serviceKey={service.key}
                         />
                     }
-                />
+                /> 
             ))}
         </DashboardSectionStyle>
     );

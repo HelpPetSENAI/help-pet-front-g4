@@ -1,16 +1,56 @@
 import { StyledHealthCheck, StyledStatus, StyledStatusWrapper } from "./style"
 import iconSucess from '../../assets/icons/icon-sucess.svg'
 import iconFail from '../../assets/icons/icon-fail.svg'
+import { useEffect, useState } from "react";
 
 /**
  * Componente de status de serviço.
  * 
  * Props:
- * - title: nome do serviço a exibir (ex: "API Gateway", "G8 - HelpPet")
+ * - serviceName: nome do serviço a exibir (ex: "API Gateway", "G8 - HelpPet")
  * - status: "UP" | "DOWN" | "DEGRADED" | "NOT_CONFIGURED" | undefined (undefined = carregando)
  * - lastCheck: string com horário da última verificação
  */
-export default function HealthCheck({ title = 'Serviço', status, lastCheck }) {
+export default function HealthCheck({ serviceName, serviceKey }) {
+    const [healthData, setHealthData] = useState(null);
+    const [lastCheck, setLastCheck] = useState(null);
+
+    useEffect(() => {
+        const fetchHealth = async () => {
+            if (document.visibilityState === 'hidden') return;
+            try {
+                const response = await fetch('/api/health');
+                const data = await response.json().catch(() => null);
+                if (data) {
+                    setHealthData(data);
+                } else if (!response.ok) {
+                    throw new Error(`Status ${response.status}`);
+                }
+            } catch {
+                setHealthData(prev => prev ?? { gateway_status: 'DOWN', services: {} });
+            } finally {
+                setLastCheck(new Date().toLocaleTimeString('pt-br'));
+            }
+        };
+
+        fetchHealth();
+        const interval = setInterval(fetchHealth, 10000);
+        const onVisible = () => { if (document.visibilityState === 'visible') fetchHealth(); };
+        
+        document.addEventListener('visibilitychange', onVisible);
+        return () => {
+            clearInterval(interval);
+            document.removeEventListener('visibilitychange', onVisible);
+        };
+    }, []);
+
+    const getStatus = () => {
+        if (!healthData) return undefined; // carregando
+        if (serviceKey === 'gateway') return healthData.gateway_status;
+        return healthData.services?.[serviceKey] || 'NOT_CONFIGURED';
+    };
+
+    const status = getStatus();
     const isSucessful = status === 'UP';
     const isLoading = status === undefined || status === null;
 
@@ -19,7 +59,7 @@ export default function HealthCheck({ title = 'Serviço', status, lastCheck }) {
         : isSucessful
             ? 'up'
             : status === 'NOT_CONFIGURED'
-                ? 'n/a'
+                ? 'nulo'
                 : 'down';
 
     const displayTime = lastCheck ?? '—';
@@ -29,7 +69,7 @@ export default function HealthCheck({ title = 'Serviço', status, lastCheck }) {
             <StyledStatusWrapper>
                 <img src={isSucessful ? iconSucess : iconFail} alt="" />
 
-                <h4>{title}</h4>
+                <h4>{serviceName}</h4>
 
                 <StyledStatus $isSucessful={isSucessful} $isLoading={isLoading}>
                     {displayStatus}
