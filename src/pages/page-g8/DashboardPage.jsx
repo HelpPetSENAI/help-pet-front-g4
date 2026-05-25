@@ -26,29 +26,19 @@ export default function Dashboard() {
     return (
         <DashboardSectionStyle>
             {/* Card principal: gráfico de métricas semanais */}
-            <DashBoardCard
-                colSpan={3}
-                rowSpan={4}
-                title={'Gráfico de barra'}
-                description={'Quantidades de requisições e respostas dos últimos 7 dias'}
-                content={<BarChart />}
-            />
+            <DashBoardCard colSpan={2} rowSpan={4} title={'Gráfico de barra'}
+            description={'Quantidades de requisições e respostas dos últimos 7 dias'} content={<BarChart />}/>
 
             {/* Cards de health check dos serviços reais */}
             {SERVICE_CARDS.map((service) => (
-                <DashBoardCard
-                    key={service.key}
-                    colSpan={1}
-                    rowSpan={1}
+                <DashBoardCard key={service.key} colSpan={1} rowSpan={1}
                     title={service.serviceName}
                     content={
-                        <HealthCheck
-                            serviceName={service.serviceName}
-                            serviceKey={service.key}
+                        <HealthCheck serviceName={service.serviceName} serviceKey={service.key}
                         />
                     }
                 /> 
             ))}
         </DashboardSectionStyle>
-    );
+    )
 }
