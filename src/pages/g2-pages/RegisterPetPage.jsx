@@ -48,7 +48,7 @@ function RegisterPetPage() {
         e.preventDefault();
         setLoading(true);
 
-        const token = "";
+        const token = "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbm5AZ21haWwuY29tIiwidXNlcklkIjozLCJpYXQiOjE3NzkxMDQzMTV9.SuusoaQ2crfm5FTC5k4xHMXAvBU98h0W7SqBIADwfVI7alfIsuGxQX5yvzpntRPq";
 
         try {
             const donationData = {
@@ -66,7 +66,7 @@ function RegisterPetPage() {
             console.log('Enviando doação:', donationData);
 
             const donationResponse = await axios.post(
-                'http://localhost:8080/donations/create',
+                'https://help-pet-back-g2.azurewebsites.net/donations/create',
                 donationData,
                 {
                     headers: {
@@ -133,7 +133,7 @@ function RegisterPetPage() {
     return (
         <S.Container>
             <Header />
-            <S.MainContent>
+            <S.MainContentRegister>
                 <S.TitleH1>Cadastrar uma nova doação</S.TitleH1>
                 <S.Form onSubmit={handleSubmit}>
                     <div>
@@ -380,7 +380,7 @@ function RegisterPetPage() {
                         <CheckIcon />
                     </S.DonationButton>
                 </S.Form>
-            </S.MainContent>
+            </S.MainContentRegister>
         </S.Container>
     );
 }
