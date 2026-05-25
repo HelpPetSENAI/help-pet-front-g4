@@ -14,11 +14,11 @@ import { DashboardSectionStyle } from "./DashboardSectionStyle";
  */
 const SERVICE_CARDS = [
     { key: 'gateway',           serviceName: 'API Gateway' },
-    { key: 'g1_auth_users',     serviceName: 'G8 / G1 - Auth' },
-    { key: 'g2_pets',           serviceName: 'G2 - Pets' },
-    { key: 'g3_adoption',       serviceName: 'G3 - Adoção' },
-    { key: 'g4_chat',           serviceName: 'G4 - Conversas' },
-    { key: 'g5_notifications',  serviceName: 'G5 - Notificações' },
+    { key: 'g1_auth_users',     serviceName: 'Autenticação' },
+    { key: 'g2_pets',           serviceName: 'Pets' },
+    { key: 'g3_adoption',       serviceName: 'Adoção' },
+    { key: 'g4_chat',           serviceName: 'Conversas' },
+    { key: 'g5_notifications',  serviceName: 'Notificações' },
 ];
 
 export default function Dashboard() {
@@ -32,7 +32,7 @@ export default function Dashboard() {
             {/* Cards de health check dos serviços reais */}
             {SERVICE_CARDS.map((service) => (
                 <DashBoardCard key={service.key} colSpan={1} rowSpan={1}
-                    title={service.serviceName}
+                    title={'Health Check'}
                     content={
                         <HealthCheck serviceName={service.serviceName} serviceKey={service.key}
                         />
