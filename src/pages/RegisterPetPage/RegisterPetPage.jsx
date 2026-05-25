@@ -1,10 +1,10 @@
-import Header from "./components/pet-header/Header.jsx";
+import Header from "../../components/pet-header/Header.jsx";
 import * as S from "./style.js";
-import CheckIcon from "./assets/icons/CheckIcon.jsx";
-import SpecieTag from "./components/tags-components/SpecieTag.jsx";
+import CheckIcon from "../../assets/icons/CheckIcon.jsx";
+import SpecieTag from "../../components/tags-components/SpecieTag.jsx";
 import {useState} from "react";
 import axios from 'axios';
-import DefaultTag from "./components/tags-components/DefaultTag.jsx";
+import DefaultTag from "../../components/tags-components/DefaultTag.jsx";
 
 function RegisterPetPage() {
     const [formData, setFormData] = useState({
