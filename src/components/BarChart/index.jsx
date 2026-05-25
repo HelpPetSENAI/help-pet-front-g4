@@ -2,21 +2,19 @@ import { useEffect, useRef, useState } from 'react';
 import Chart from 'chart.js/auto';
 import { StyledCanvasWrapper } from './style';
 
-// Labels dos últimos 7 dias (mantém a lógica original do amigo)
 function getLast7DaysLabels() {
   const today = new Date();
   const labels = [];
   for (let i = 6; i >= 0; i--) {
-    const d = new Date(today);
-    d.setDate(today.getDate() - i);
-    labels.push(d.toLocaleDateString('pt-br', { weekday: 'short', day: '2-digit' }));
+    const day = new Date(today);
+    day.setDate(today.getDate() - i);
+    labels.push(day.toLocaleDateString('pt-br', { weekday: 'short'}));
   }
   return labels;
 }
 
-// Dados estáticos de fallback (dados originais do amigo)
-const FALLBACK_REQUESTS = [65, 59, 80, 81, 56, 55, 40];
-const FALLBACK_RESPONSES = [44, 33, 98, 45, 99, 65, 32];
+const mockedRequest = [65, 59, 80, 81, 56, 55, 40];
+const mockedResponses = [44, 33, 98, 45, 99, 65, 32];
 
 export default function BarChart() {
   const canvasRef = useRef(null);
@@ -63,8 +61,8 @@ export default function BarChart() {
       requestsData = metricsData.map(item => item.requests ?? 0);
       responsesData = metricsData.map(item => item.responses ?? 0);
     } else {
-      requestsData = FALLBACK_REQUESTS;
-      responsesData = FALLBACK_RESPONSES;
+      requestsData = mockedRequest;
+      responsesData = mockedResponses;
     }
 
     const config = {
@@ -90,9 +88,6 @@ export default function BarChart() {
         },
         responsive: true,
         maintainAspectRatio: false,
-        plugins: {
-          legend: { position: 'bottom' },
-        },
       },
     };
 
@@ -114,8 +109,8 @@ export default function BarChart() {
   return (
     <StyledCanvasWrapper>
       {usingFallback && (
-        <p style={{ fontSize: '12px', color: 'rgba(0,0,0,0.45)', marginBottom: '4px' }}>
-          ⚠️ Gateway offline — exibindo dados de exemplo
+        <p>
+          Gateway offline — exibindo dados de exemplo
         </p>
       )}
       <canvas ref={canvasRef}></canvas>
