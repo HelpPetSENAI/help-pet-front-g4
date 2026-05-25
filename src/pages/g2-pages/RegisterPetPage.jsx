@@ -48,7 +48,7 @@ function RegisterPetPage() {
         e.preventDefault();
         setLoading(true);
 
-        const token = "";
+        const token = "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbm5AZ21haWwuY29tIiwidXNlcklkIjozLCJpYXQiOjE3NzkxMDQzMTV9.SuusoaQ2crfm5FTC5k4xHMXAvBU98h0W7SqBIADwfVI7alfIsuGxQX5yvzpntRPq";
 
         try {
             const donationData = {
