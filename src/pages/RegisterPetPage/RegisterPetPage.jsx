@@ -86,7 +86,7 @@ function RegisterPetPage() {
                     photoFormData.append('file', photo);
 
                     await axios.post(
-                        `http://localhost:8080/photos/upload?donationId=${donationId}`,
+                        `https://help-pet-back-g2.azurewebsites.net/photos/upload?donationId=${donationId}`,
                         photoFormData,
                         {
                             headers: {
