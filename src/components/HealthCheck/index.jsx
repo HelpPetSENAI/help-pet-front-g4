@@ -16,32 +16,20 @@ export default function HealthCheck({ serviceName, serviceKey }) {
     const [lastCheck, setLastCheck] = useState(null);
 
     useEffect(() => {
-        const fetchHealth = async () => {
+        const fetchAllHealth = async () => {
             if (document.visibilityState === 'hidden') return;
             try {
-                const response = await fetch('/api/health');
-                const data = await response.json().catch(() => null);
-                if (data) {
-                    setHealthData(data);
-                } else if (!response.ok) {
-                    throw new Error(`Status ${response.status}`);
-                }
-            } catch {
-                setHealthData(prev => prev ?? { gateway_status: 'DOWN', services: {} });
+                const response = await fetch('https://gateway-help-pet-aqhhahgdbuaahfc8.brazilsouth-01.azurewebsites.net/api/health');
+                const data = await response.json();
+                setHealthData(data);
+            } catch (err) {
+                setHealthData({ gateway_status: 'DOWN', services: {} });
             } finally {
                 setLastCheck(new Date().toLocaleTimeString('pt-br'));
             }
         };
 
-        fetchHealth();
-        const interval = setInterval(fetchHealth, 10000);
-        const onVisible = () => { if (document.visibilityState === 'visible') fetchHealth(); };
-        
-        document.addEventListener('visibilitychange', onVisible);
-        return () => {
-            clearInterval(interval);
-            document.removeEventListener('visibilitychange', onVisible);
-        };
+        fetchAllHealth();
     }, []);
 
     const getStatus = () => {
@@ -55,7 +43,7 @@ export default function HealthCheck({ serviceName, serviceKey }) {
     const isLoading = status === undefined || status === null;
 
     const displayStatus = isLoading
-        ? 'verificando...'
+        ? '...'
         : isSucessful
             ? 'up'
             : status === 'NOT_CONFIGURED'
