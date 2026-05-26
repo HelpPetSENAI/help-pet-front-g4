@@ -27,7 +27,7 @@ export default function BarChart() {
     const fetchMetrics = async () => {
       if (document.visibilityState === 'hidden') return;
       try {
-        const response = await fetch('/api/admin/metrics/weekly', {
+        const response = await fetch('https://gateway-help-pet-aqhhahgdbuaahfc8.brazilsouth-01.azurewebsites.net/api/admin/metrics/weekly', {
           credentials: 'include',
         });
         if (!response.ok) throw new Error(`Status ${response.status}`);
