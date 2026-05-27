@@ -12,7 +12,7 @@ export const StyledHealthCheck = styled.div`
     > p {
         font-size: 1rem;
         font-weight: 500;
-        color: rgba(0, 0, 0, 80%);
+        color: rgba(0, 0, 0, 0.6);
     }
 `
 
