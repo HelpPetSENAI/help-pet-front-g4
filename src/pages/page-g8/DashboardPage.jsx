@@ -26,7 +26,7 @@ export default function Dashboard() {
     return (
         <DashboardSectionStyle>
             {/* Card principal: gráfico de métricas semanais */}
-            <DashBoardCard colSpan={2} rowSpan={4} title={'Gráfico de barra'}
+            <DashBoardCard colSpan={2} rowSpan={3} mobileRowSpan={4} title={'Gráfico de barra'}
             description={'Quantidades de requisições e respostas dos últimos 7 dias'} content={<BarChart />}/>
 
             {/* Cards de health check dos serviços reais */}

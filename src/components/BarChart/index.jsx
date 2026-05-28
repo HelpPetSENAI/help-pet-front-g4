@@ -71,12 +71,12 @@ export default function BarChart() {
         labels,
         datasets: [
           {
-            label: 'Quantidade de Requisições',
+            label: 'Requisições',
             data: requestsData,
             backgroundColor: '#81DA87',
           },
           {
-            label: 'Quantidade de Respostas',
+            label: 'Respostas',
             data: responsesData,
             backgroundColor: '#2FA237',
           },
