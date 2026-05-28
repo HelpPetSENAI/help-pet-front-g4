@@ -7,7 +7,7 @@ export const StyledCanvasWrapper = styled.div`
   flex-direction: column;
   flex: 1;
   gap: 0.2rem;
-  padding: 1rem 0;
+  padding: 1rem 0 0 0;
 
   width: 100%;
 
@@ -17,11 +17,15 @@ export const StyledCanvasWrapper = styled.div`
   }
 
   canvas {
-    display: block;
-    
     width: 100%;
     height: 100%;
-    min-height: 350px;
-    max-height: 700px;
+    min-height: fit-content;
+    max-height: 525px;
+  }
+
+  @media(min-width: 700px) {
+    canvas {
+      max-height: 375px;
+    }
   }
 `
