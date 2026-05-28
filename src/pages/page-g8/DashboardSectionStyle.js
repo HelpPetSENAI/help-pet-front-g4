@@ -3,12 +3,12 @@ import styled from "styled-components"
 export const DashboardSectionStyle = styled.section`
     display: grid;
     grid-template-columns: 1fr;
-    grid-auto-rows: minmax(150px, auto);
+    grid-auto-rows: 150px;
     gap: 1rem;
     
     font-family: var(--main-font);
     
-    width: 100dvw;
+    width: 100%;
     min-height: 100vh;
     padding: 1rem;
     
