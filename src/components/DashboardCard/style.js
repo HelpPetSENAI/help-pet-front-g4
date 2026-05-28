@@ -6,7 +6,7 @@ export const StyledDashboardCard = styled.div`
     justify-content: center;
     
     grid-column: span 1;
-    grid-row: span ${props => props.$rowSpan};
+    grid-row: span ${props => props.$mobileRowSpan};
 
     padding: 0.5rem;
 
