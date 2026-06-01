@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const StyledButton = styled.button`
     cursor: pointer;
+    display: block;
     padding: 12px 20px;
     gap: 8px;
     font-size: 16px;
@@ -11,7 +12,7 @@ export const StyledButton = styled.button`
     border: 2px solid var(--green-1000, #061407);
     box-shadow: 2px 2px 0 0 var(--green-1000, #061407);
     transition: all 0.2s ease;
-    margin-left: 130px;
+    margin: 8px auto 0 auto;
 
     &:hover {
         transform: translate(2px, 2px);

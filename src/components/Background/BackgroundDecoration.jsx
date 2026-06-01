@@ -3,18 +3,15 @@ import decor from "../../assets/images/decor.svg";
 
 const Decor = styled.div`
   position: absolute;
-  top: 0;
-  right: 0;
-  width: 60%;  
-  height: 100%;
+  inset: 0;
 
-  background: url(${decor}) no-repeat center;
-  background-size: cover;
+  background: url(${decor}) no-repeat right center;
+  background-size: contain;
 
   opacity: 0.25;
   pointer-events: none;
 `;
 
-export default function BackgroundImages() {
+export default function BackgroundDecoration() {
   return <Decor />;
 }

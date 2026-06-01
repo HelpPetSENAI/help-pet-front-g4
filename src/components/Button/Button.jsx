@@ -1,5 +1,9 @@
-import { StyledButton } from "../../styles/ButtonStyle";
+import { StyledButton } from "./ButtonStyle";
 
-export default function ButtonLogin() {
-  return <StyledButton>Fazer Login</StyledButton>;
+export default function Button({content}) {
+    return(
+        <StyledButton>
+                {content} 
+        </StyledButton>
+    )
 }

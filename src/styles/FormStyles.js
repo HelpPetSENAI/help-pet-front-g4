@@ -1,17 +1,18 @@
 export const containerStyle = {
   width: "400px",
+  maxWidth: "100%",
   display: "flex",
   flexDirection: "column",
-  marginBottom: "30px",
+  marginBottom: "12px",
   fontFamily: "Arial, sans-serif",
 };
 
 export const titleStyle = {
   fontFamily: "League Spartan",
-  fontSize: "36px",
+  fontSize: "30px",
   fontWeight: "700",
-  marginBottom: "20px",
-  marginLeft: "24px"
+  marginBottom: "14px",
+  marginLeft: "10px"
 };
 
 export const labelInputRow = {
@@ -34,12 +35,13 @@ export const labelStyle = {
 
 export const inputStyle = {
   display: "flex",
-  padding: "15px",
+  width: "calc(100% - 10px)",
+  padding: "12px",
   alignItems: "flex-start",
   gap: "10px",
   border: "2px solid #000",
   background: "#FFF",
-  marginBottom: "30px",
+  marginBottom: "14px",
   marginLeft: "10px",
   boxShadow: "4px 4px 0 0 #000", 
 };
