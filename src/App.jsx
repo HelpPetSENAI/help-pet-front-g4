@@ -1,9 +1,10 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import RegisterPetPage from './pages/RegisterPetPage/RegisterPetPage.jsx'
-import ShowPetsPage from './pages/ShowPetsPage/ShowPetsPage.jsx'
+import GlobalStyle from './styles/GlobalStyle.js'
 import ComingSoonPage from './pages/CommingSoonPage/CommingSoonPage.jsx'
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage.jsx'
-import GlobalStyle from './styles/GlobalStyle.js'
+import Dashboard from './pages/page-g8/DashboardPage.jsx'
+import RegisterPetPage from './pages/RegisterPetPage/RegisterPetPage.jsx'
+import ShowPetsPage from './pages/ShowPetsPage/ShowPetsPage.jsx'
 
 // Criando uma array para definir as rotas do site utilizando a função createBrowserRouter importada
 const router = createBrowserRouter([
@@ -23,9 +24,13 @@ const router = createBrowserRouter([
     element: <RegisterPetPage />
   },
   {
+    path: '/dashboard',
+    element: <Dashboard />
+  },
+  {
     path: '/show-pets',
     element: <ShowPetsPage />
-  },
+  }
 ])
 
 export default function App() {
