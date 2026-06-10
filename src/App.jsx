@@ -1,89 +1,117 @@
-/*import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import ComingSoonPage from './pages/CommingSoonPage'
-import NotFoundPage from './pages/NotFoundPage.jsx'
+import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import GlobalStyle from './styles/GlobalStyle.js'
-import ExamplePage from './pages/ExamplePage.jsx'
-import MessagePageG6 from './pages/page-g6/MessagePageG6.jsx'
+import ComingSoonPage from './pages/CommingSoonPage/CommingSoonPage.jsx'
+import NotFoundPage from './pages/NotFoundPage/NotFoundPage.jsx'
+import Dashboard from './pages/DashboardPage/DashboardPage.jsx'
+import RegisterPetPage from './pages/RegisterPetPage/RegisterPetPage.jsx'
+import ShowPetsPage from './pages/ShowPetsPage/ShowPetsPage.jsx'
+import Login from "./pages/Login/Login.jsx";
+import SignUp from "./pages/SignUp/SignUp.jsx";
+import { isAuthenticated } from './service/AuthService.js'
+import LocationsPage from './pages/locations-page/LocationsPage.jsx'
 
+function ProtectedRoute({ children }) {
+    if (!isAuthenticated()) {
+        return <Navigate to="/login" replace />
+    }
+
+    return children
+}
+
+function PublicRoute({ children }) {
+    if (isAuthenticated()) {
+        return <Navigate to="/" replace />
+    }
+
+    return children
+}
+
+// Criando uma array para definir as rotas do site utilizando a função createBrowserRouter importada
 const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <ComingSoonPage />,
-    errorElement: <NotFoundPage />
-  },
-  {
-    path: '/coming-soon',
-    element: <ComingSoonPage />
-  },
-  {
-    path: '/example',
-    element: <ExamplePage />
-  },
-  {
-    path: '/message',
-    element: <MessagePageG6 />
-  },
+    {
+        path: '/',
+        element: (
+            <ProtectedRoute>
+                <ShowPetsPage />
+            </ProtectedRoute>
+        ),
+        // Error element aparece no caso de digitar um endereço que não existe, link com caminho errado ou erros de carregamento
+        // Apenas essa declaração de error element aparece em caso de erro em qualquer página
+        errorElement: <NotFoundPage />
+    },
+    {
+        path: '/home',
+        element: (
+            <ProtectedRoute>
+                <ShowPetsPage />
+            </ProtectedRoute>
+        )
+    },
+    {
+        path: '/coming-soon',
+        element: (
+            <ProtectedRoute>
+                <ComingSoonPage />
+            </ProtectedRoute>
+        )
+    },
+    {
+        path: '/register-pet',
+        element: (
+            <ProtectedRoute>
+                <RegisterPetPage />
+            </ProtectedRoute>
+        )
+    },
+    {
+        path: '/dashboard',
+        element: (
+            <ProtectedRoute>
+                <Dashboard />
+            </ProtectedRoute>
+        )
+    },
+    {
+        path: '/show-pets',
+        element: (
+            <ProtectedRoute>
+                <ShowPetsPage />
+            </ProtectedRoute>
+        )
+    },
+    {
+        path: "/locations",
+        element: (
+            <ProtectedRoute>
+                <LocationsPage />
+            </ProtectedRoute>
+        ),
+    },
+    {
+        path: "/login",
+        element: (
+            <PublicRoute>
+                <Login />
+            </PublicRoute>
+        ),
+    },
+    {
+        path: "/signup",
+        element: (
+            <PublicRoute>
+                <SignUp />
+            </PublicRoute>
+        )
+    }
 ])
 
 export default function App() {
-  return (
-    <>
-      <GlobalStyle />
-      <RouterProvider router={router} />
-    </>
-  )
-}*/
-import React, { useState, useCallback } from "react";
-import GlobalStyle from "./styles/GlobalStyle.js";
-import ContainerSearchElement from "./components/inputSearch/containerSearch.jsx";
-import MapComponent from "./components/map/Map.jsx";
-import FilterModal from "./components/filter/FilterModal.jsx";
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700&display=swap" rel="stylesheet"></link>
-
-
-export default function App() {
-    const [map, setMap] = useState(null);
-    const [searchLocation, setSearchLocation] = useState(null);
-    const [filters, setFilters] = useState({
-        distanciaMax: 5,
-        tipoAnimal: "",
-        idade: "",
-        raca: "",
-        temperamento: [],
-        porte: "",
-        sexo: "",
-        vacinado: "",
-        castrado: "",
-    });
-    const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
-
-    const handleSearch = useCallback((location) => {
-        setSearchLocation(location);
-    }, []);
-
-    const handleApplyFilters = (newFilters) => {
-        setFilters(newFilters);
-    };
 
     return (
         <>
             <GlobalStyle />
-            <ContainerSearchElement
-                map={map}
-                onSearch={handleSearch}
-                onFilterClick={() => setIsFilterModalOpen(true)}
-            />
-            <MapComponent
-                setMap={setMap}
-                searchLocation={searchLocation}
-                filters={filters}
-            />
-            <FilterModal
-                isOpen={isFilterModalOpen}
-                onClose={() => setIsFilterModalOpen(false)}
-                onApply={handleApplyFilters}
-                initialFilters={filters}
-            />
+            {/* RouterProvider fornece as rotas definidas acima para serem renderizadas através do atríbuto router */}
+            <RouterProvider router={router} />
         </>
-    );
+    )
 }

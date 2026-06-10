@@ -1,10 +1,10 @@
 import React, { useState, useCallback } from "react";
-import ContainerSearchElement from "./components/inputSearch/containerSearch.jsx";
-import MapComponent from "./components/map/Map.jsx";
-import FilterModal from "./components/filter/FilterModal.jsx";
+import ContainerSearchElement from "../../components/inputSearch/containerSearch.jsx";
+import MapComponent from "../../components/map/Map.jsx";
+import FilterModal from "../../components/filter/FilterModal.jsx";
 
 const LocationsPage = () => {
-    
+
     const [map, setMap] = useState(null);
     const [searchLocation, setSearchLocation] = useState(null);
     const [filters, setFilters] = useState({
